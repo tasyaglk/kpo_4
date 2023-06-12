@@ -18,8 +18,6 @@ public class UserRegistrationRequest {
         this.roles = roles;
     }
 
-    // Геттеры и сеттеры для полей класса
-
     public String getUsername() {
         return username;
     }

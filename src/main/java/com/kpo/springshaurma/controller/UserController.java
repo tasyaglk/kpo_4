@@ -29,7 +29,7 @@ public class UserController {
         User user = userRepository.findByEmail(email);
 
         if (user == null || !password.equals(user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неверные учетные данные");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
 
         String token = jwtUtils.generateToken(user.getId());
@@ -43,11 +43,12 @@ public class UserController {
             Long userId = jwtUtils.getUserIdFromToken(token);
 
             User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new NoSuchElementException("Пользователь не найден"));
+                    .orElseThrow(() -> new NoSuchElementException("\n" +
+                            "User is not found"));
 
             return ResponseEntity.ok(user);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Неверный токен");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
     }
 
@@ -55,30 +56,24 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User registrationRequest) {
         try {
-            // Проверка корректности входных данных
             if (!isValidEmail(registrationRequest.getEmail())) {
-                return ResponseEntity.badRequest().body("Некорректный адрес электронной почты");
+                return ResponseEntity.badRequest().body("Incorrect email address");
             }
 
-            // Проверка наличия пользователя с таким же адресом электронной почты
             if (userRepository.existsByEmail(registrationRequest.getEmail())) {
-                return ResponseEntity.badRequest().body("Пользователь с таким адресом электронной почты уже существует");
+                return ResponseEntity.badRequest().body("User with this email address already exists");
             }
-
-            // Создание нового пользователя
             User user = new User();
             user.setUsername(registrationRequest.getUsername());
             user.setEmail(registrationRequest.getEmail());
             user.setPasswordHash(registrationRequest.getPassword());
             user.setRole(registrationRequest.getRole());
 
-            // Сохранение пользователя в базе данных
             userRepository.save(user);
 
-            // Подтверждающее сообщение после успешной регистрации
-            return ResponseEntity.ok("Пользователь успешно зарегистрирован");
+            return ResponseEntity.ok("User successfully registered");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка при регистрации пользователя");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User registration error");
         }
     }
 

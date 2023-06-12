@@ -12,11 +12,11 @@ import java.util.Date;
 @Component
 @Service
 public class JwtUtils {
-    private final String secretKey = "ваш_секретный_ключ";
+    private final String secretKey = "oaoaoaoaoaoidontunderstandanything";
 
     public String generateToken(Long userId) {
         Date now = new Date();
-        Date expirationDate = new Date(now.getTime() + 86400000); // Токен будет действителен в течение 24 часов
+        Date expirationDate = new Date(now.getTime() + 86400000);
 
         return Jwts.builder()
                 .setSubject(userId.toString())
