@@ -2,7 +2,7 @@ package com.kpo.springshaurma.controller;
 
 import com.kpo.springshaurma.entity.User;
 import com.kpo.springshaurma.repository.UserRepository;
-import jwt.JwtUtils;
+import com.kpo.springshaurma.jwt.JwtUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package jwt;
+package com.kpo.springshaurma.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
