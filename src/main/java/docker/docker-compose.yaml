@@ -1,0 +1,23 @@
+version: "3"
+# docker compose up -d
+services:
+  hw:
+    build: database
+    ports:
+      - 5432:5432
+    environment:
+      DB_USER: hw_user
+      DB_PASSWORD: hw_password
+      DB_NAME: hw
+      POSTGRES_PASSWORD: hw_password
+    volumes:
+      - db-postgres-vol:/var/lib/postgresql/data
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=100"
+      - "-c"
+      - "shared_buffers=64MB"
+
+volumes:
+  db-postgres-vol:
